@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fetch from API</title>
+</head>
+<body>
+    <ul id="commits-list">
+    </ul>
+    <button id="get-commits-button" onclick="getCommits()">Get commits!</button>
+
+    <script>
+        
+        let getCommitsButton = document.getElementById('get-commits-button');
+        let commitsList = document.getElementById('commits-list');
+
+        function getCommits() {
+            let current = new XMLHttpRequest()
+            current.open('GET', 'https://api.openweathermap.org/data/2.5/weather?q=szczecin&lang=pl&units=metric&appid=f5df316f76b17fe6e39391d1bc2822ac', true);
+            console.log('XMLHttpRequest response:');
+            current.onload = function() {
+            let data = JSON.parse(this.response);
+            console.log(data);
+            };
+
+            getCommitsButton.disabled = true;
+            fetch('https://api.openweathermap.org/data/2.5/forecast?q=szczecin&lang=pl&units=metric&appid=f5df316f76b17fe6e39391d1bc2822ac')
+                .then((response) => {
+                    console.log(response);
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log('Fetch API response:');
+                    console.log(data);
+                })
+            ;
+        }
+    </script>
+</body>
+</html>
